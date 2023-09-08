@@ -62,7 +62,8 @@ echo "Chimera Filtering with UCHIME Denovo..."
 mkdir -p uchime_denovo_out
 for file in fasta_files/*.fasta; do
     if [ -s "$file" ]; then  # Check if file is not empty
-        vsearch --uchime_denovo $file --mindiv 0.5 --dn 1.6 --threads 8 --uchimeout uchime_denovo_out/${file##*/}.uchime --nonchimeras uchime_denovo_out/${file##*/}.fasta
+        vsearch --uchime_denovo $file --mindiv 0.5 --dn 1.6 --threads 8 --uchimeout uchime_denovo_out/${file##*/}.uchime \
+        --nonchimeras uchime_denovo_out/${file##*/}
     else
         echo "Warning: $file is empty. Skipping..."
     fi
@@ -74,7 +75,9 @@ echo "Chimera Filtering with UCHIME Ref..."
 mkdir -p uchime_ref_out
 for file in uchime_denovo_out/*.fasta; do
     if [ -s "$file" ]; then  # Check if file is not empty
-        vsearch --uchime_ref $file --mindiv 0.5 --dn 1.6 --threads 8 --db ref.fasta --nonchimeras uchime_ref_out/${file##*/}
+        vsearch --uchime_ref $file --mindiv 0.5 --dn 1.6 --threads 8 \
+        --db /home/ali/Documents/simulated_data/analysis/cleaned_ref.fasta \
+        --nonchimeras uchime_ref_out/${file##*/}
     else
         echo "Warning: $file is empty. Skipping..."
     fi
@@ -86,21 +89,21 @@ echo "ITS Extraction..."
 mkdir -p ITSx_out
 for file in uchime_ref_out/*.fasta; do
     ITSx -i $file --cpu 128 -nhmmer T -E 1e-3 --complement T --only_full T -domains 2 -score 0 --partial 50 \
-    --not_found F --graphical F --preserve T --summary F -o ITSx_out/${file##*/}
+    --not_found F --graphical F --preserve T --summary F --truncate T -o ITSx_out/${file##*/}
 done
 
 # 8. Dereplication with Vsearch
 echo "Dereplication..."
 mkdir -p derep_out
 for file in ITSx_out/*.full.fasta; do
-    vsearch --derep_fulllength $file --sizein --sizeout --threads 8 -o derep_out/${file##*/}
+    vsearch --derep_fulllength $file --sizein --sizeout --threads 8 --output derep_out/${file##*/}
 done
 
 # 9. Clustering with Vsearch
 echo "Clustering..."
 mkdir -p clustering_out
 for file in derep_out/*.fasta; do
-    vsearch --cluster_size $file --fasta_width 0 --id 0.97 --threads 8 --strands both --remove_singeltons true \
+    vsearch --cluster_size $file --fasta_width 0 --id 0.97 --threads 8 --minuniquesize 2 \
     --sizein --qmask dust --maxaccepts 1 --uc clustering_out/OTUs.uc --centroids clustering_out/OTUs.fasta
 done
 
@@ -110,9 +113,9 @@ mkdir -p blast_out
 split -l $(($(wc -l < clustering_out/OTUs.fasta)/10)) clustering_out/OTUs.fasta chunk_
 for file in chunk_*; do
     blastn -query $file \
-    -db silva_138 \
+    -db /home/ali/Documents/simulated_data/analysis/pipe_test/database/UNITE \
     -word_size 7 \
-    -num_threads 128 \
+    -num_threads 8 \
     -outfmt "6 delim=+ qseqid stitle qlen slen qstart qend sstart send evalue length nident mismatch gapopen gaps sstrand qcovs pident" \
     -evalue 0.001 \
     -strand both \

@@ -23,27 +23,28 @@ else
     echo "No compressed files found. Moving to the next step."
 fi
 
-
 INPUT_FILES=(*.fastq)
 
 # 2. Trim Primers with Cutadapt
 echo "Trimming Primers..."
 mkdir -p cut_primers_out
 for file in "${INPUT_FILES[@]}"; do
-    READ_IN=$(seqkit stats $file | awk 'NR==2 {print $2}')
+    READ_IN=$(seqkit stats $file | awk 'NR==2 {print $4}')
     cutadapt -a TGTACACACCGCCCGTCG -g "TCCTSCGCTTATTGATATGC;min_overlap=20" -e 0.1 --discard-untrimmed -j 8 \
     --action=none -o cut_primers_out/$file $file
-    READ_OUT=$(seqkit stats cut_primers_out/$file | awk 'NR==2 {print $2}')
+    READ_OUT=$(seqkit stats cut_primers_out/$file | awk 'NR==2 {print $4}')
+    echo "$file: Before=$READ_IN, After=$READ_OUT" >> cut_primers_out/report.txt
 done
 
 # 3. Quality Filtering with Vsearch
 echo "Quality Filtering..."
 mkdir -p quality_filtering_out
 for file in cut_primers_out/*.fastq; do
-    READ_IN=$(seqkit stats $file | awk 'NR==2 {print $2}')
+    READ_IN=$(seqkit stats $file | awk 'NR==2 {print $4}')
     vsearch --fastq_filter $file --fastq_maxee 1 --fastq_maxns 0 --fastq_minlen 50 --threads 8 --fastq_qmax 93 \
     --fastq_qmin 0 --fastqout quality_filtering_out/${file##*/}
-    READ_OUT=$(seqkit stats quality_filtering_out/${file##*/} | awk 'NR==2 {print $2}')
+    READ_OUT=$(seqkit stats quality_filtering_out/${file##*/} | awk 'NR==2 {print $4}')
+    echo "${file##*/}: Before=$READ_IN, After=$READ_OUT" >> quality_filtering_out/report.txt
 done
 
 # 4. Convert FASTQ to FASTA
@@ -69,7 +70,6 @@ for file in fasta_files/*.fasta; do
     fi
 done
 
-
 # 6. Chimera Filtering with UCHIME Ref
 echo "Chimera Filtering with UCHIME Ref..."
 mkdir -p uchime_ref_out
@@ -82,7 +82,6 @@ for file in uchime_denovo_out/*.fasta; do
         echo "Warning: $file is empty. Skipping..."
     fi
 done
-
 
 # 7. ITS Extraction with ITSx
 echo "ITS Extraction..."
@@ -103,7 +102,7 @@ done
 echo "Clustering..."
 mkdir -p clustering_out
 for file in derep_out/*.fasta; do
-    vsearch --cluster_size $file --fasta_width 0 --id 0.97 --threads 8 --minuniquesize 2 \
+    vsearch --cluster_fast $file --fasta_width 0 --id 0.97 --threads 8 --strand both \
     --sizein --qmask dust --maxaccepts 1 --uc clustering_out/OTUs.uc --centroids clustering_out/OTUs.fasta
 done
 

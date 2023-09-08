@@ -57,36 +57,28 @@ for file in quality_filtering_out/*.fastq; do
     fi
 done
 
-
-# Intermediate File Check
-echo "Checking the format of a few FASTA files..."
-for file in fasta_files/*.fasta; do
-    head -n 5 $file
-    break  # Only print one file for brevity
-done
-
 # 5. Chimera Filtering with UCHIME Denovo
 echo "Chimera Filtering with UCHIME Denovo..."
 mkdir -p uchime_denovo_out
 for file in fasta_files/*.fasta; do
     if [ -s "$file" ]; then  # Check if file is not empty
-        vsearch --uchime_denovo $file --mindiv 0.5 --dn 1.6 --threads 8 --fasta --nonchimeras uchime_denovo_out/${file##*/}
+        vsearch --uchime_denovo $file --mindiv 0.5 --dn 1.6 --threads 8 --uchimeout uchime_denovo_out/${file##*/}.uchime --nonchimeras uchime_denovo_out/${file##*/}.fasta
     else
         echo "Warning: $file is empty. Skipping..."
     fi
 done
+
 
 # 6. Chimera Filtering with UCHIME Ref
 echo "Chimera Filtering with UCHIME Ref..."
 mkdir -p uchime_ref_out
 for file in uchime_denovo_out/*.fasta; do
     if [ -s "$file" ]; then  # Check if file is not empty
-        vsearch --uchime_ref $file --mindiv 0.5 --dn 1.6 --threads 8 --fasta --nonchimeras uchime_ref_out/${file##*/}
+        vsearch --uchime_ref $file --mindiv 0.5 --dn 1.6 --threads 8 --db ref.fasta --nonchimeras uchime_ref_out/${file##*/}
     else
         echo "Warning: $file is empty. Skipping..."
     fi
 done
-
 
 
 # 7. ITS Extraction with ITSx

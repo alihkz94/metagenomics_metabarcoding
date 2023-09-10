@@ -73,6 +73,7 @@ done
 # 6. Chimera Filtering with UCHIME Ref
 echo "Chimera Filtering with UCHIME Ref..."
 mkdir -p uchime_ref_out
+
 for file in uchime_denovo_out/*.fasta; do
     if [ -s "$file" ]; then  # Check if file is not empty
         vsearch --uchime_ref $file --mindiv 0.5 --dn 1.6 --threads 8 \
@@ -118,7 +119,7 @@ for file in chunk_*; do
     -outfmt "6 delim=+ qseqid stitle qlen slen qstart qend sstart send evalue length nident mismatch gapopen gaps sstrand qcovs pident" \
     -evalue 0.001 \
     -strand both \
-    -max_target_seqs 1 \
+    -max_target_seqs 10 \
     -max_hsps 2 \
     -dust no \
     -soft_masking true \
@@ -130,5 +131,16 @@ for file in chunk_*; do
 done
 wait
 cat blast_out/*_blast_results.txt > blast_out/final_blast_results.txt
+
+# Extracting the top best hits from the top 10 best hits of the BLAST results
+echo "Extracting top best hits..."
+awk -F'+' '{print $1}' blast_out/final_blast_results.txt | sort | uniq | while read -r line
+do
+    grep -m 1 "$line" blast_out/final_blast_results.txt >> blast_out/top_best_hits.txt
+done
+
+# Cleanup: Remove the chunk files generated during BLAST analysis
+echo "Cleaning up chunk files..."
+rm chunk_*
 
 echo "Pipeline Completed!"

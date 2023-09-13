@@ -58,6 +58,23 @@ for file in quality_filtering_out/*.fastq; do
     fi
 done
 
+# 4.5. Dereplication
+echo "Dereplication..."
+mkdir -p tempdir # Ensure the temporary directory exists
+for file in fasta_files/*.fasta; do
+    input_file=$(basename $file)
+    dereplicate_cmd="vsearch --derep_fulllength $file --sizein --sizeout --fasta_width 0 --output tempdir/${input_file}.derep.fasta"
+    eval $dereplicate_cmd
+done
+
+# 4.6. Pre-clustering
+echo "Pre-clustering..."
+for file in tempdir/*.derep.fasta; do
+    input_file=$(basename $file .derep.fasta)
+    precluster_cmd="vsearch --cluster_size $file --id {id_value} --sizein --sizeout --fasta_width 0 --centroids tempdir/${input_file}.preclustered.fasta"
+    eval $precluster_cmd
+done
+
 # 5. Chimera Filtering with UCHIME Denovo
 echo "Chimera Filtering with UCHIME Denovo..."
 mkdir -p uchime_denovo_out

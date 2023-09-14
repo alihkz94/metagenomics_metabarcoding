@@ -49,7 +49,7 @@ for folder in "${FOLDERS[@]}"; do
     done
     wait
 
-    cat OTUs_chunk_*_blast_results.txt > _blast_top10hit.txt
+    cat OTUs_chunk_*_blast_results.txt > blast_top10hit.txt
     awk -F '\t' '!seen[$1]++' _blast_top10hit.txt > blast_1st_tophit.txt
     rm OTUs_chunk_*_blast_results.txt
 done

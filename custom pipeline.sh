@@ -132,7 +132,7 @@ for file in chunk_*; do
     blastn -query $file \
     -db /home/ali/Documents/simulated_data/analysis/pipe_test/database/UNITE \
     -word_size 7 \
-    -num_threads 8 \
+    -num_threads 12 \
     -outfmt "6 delim=+ qseqid stitle qlen slen qstart qend sstart send evalue length nident mismatch gapopen gaps sstrand qcovs pident" \
     -evalue 0.001 \
     -strand both \

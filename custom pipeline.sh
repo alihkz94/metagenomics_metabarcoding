@@ -137,13 +137,7 @@ for file in chunk_*; do
     -evalue 0.001 \
     -strand both \
     -max_target_seqs 10 \
-    -max_hsps 2 \
-    -dust no \
-    -soft_masking true \
-    -penalty -1 \
-    -reward 1 \
-    -gapopen 1 \
-    -gapextend 2 \
+    -max_hsps 1 \
     -out blast_out/${file}_blast_results.txt &
 done
 wait

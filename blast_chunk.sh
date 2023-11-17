@@ -31,7 +31,7 @@ for folder in "${FOLDERS[@]}"; do
             -db /gpfs/space/home/alihakim/analysis/databse/UNITE \
             -word_size 7 \
             -num_threads 12 \
-            -outfmt "6  delim=; qseqid stitle qlen slen qstart qend sstart send evalue length nident mismatch gapopen gaps sstrand qcovs pident" \
+            -outfmt "6  delim=+ qseqid stitle qlen slen qstart qend sstart send evalue length nident mismatch gapopen gaps sstrand qcovs pident" \
             -evalue 0.001 \
             -strand both \
             -max_target_seqs 10 \

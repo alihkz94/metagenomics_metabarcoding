@@ -91,3 +91,68 @@ processAndWriteSequences <- function(seqtab, isChimeric = FALSE) {
 # Create directories and process sequences
 processAndWriteSequences(nonchimeric_seqtab, isChimeric = FALSE)
 processAndWriteSequences(discarded_chimera, isChimeric = TRUE)
+
+##########################################################################################################
+######per sample script#####
+# Ensure directory existence
+ensureDirExists <- function(dir_name) {
+  if (!dir_exists(dir_name)) {
+    dir_create(dir_name)
+  }
+}
+
+# Write sequences to FASTA with counts, excluding sequences with zero counts
+writeFastaWithCounts <- function(sequences, counts, headers, dir_name, file_name) {
+  ensureDirExists(dir_name)
+  file_path <- file.path(dir_name, file_name)
+  
+  # Initialize a vector to hold FASTA content
+  fasta_lines <- c()
+  
+  # Loop through sequences and prepare FASTA content
+  for (i in seq_along(sequences)) {
+    if (counts[i] > 0) {  # Check if count is greater than zero
+      fasta_header <- paste(">", headers[i], "_count_", counts[i], sep = "")
+      fasta_sequence <- sequences[i]
+      fasta_lines <- c(fasta_lines, fasta_header, fasta_sequence)
+    }
+  }
+  
+  # Write to file only if there's content to avoid empty files
+  if (length(fasta_lines) > 0) {
+    con <- file(file_path, "w")
+    writeLines(fasta_lines, con)
+    close(con)
+  }
+}
+
+# Process and organize sequences by sample, respecting counts
+processAndWriteSequences <- function(seqtab, isChimeric = FALSE) {
+  samples <- unique(gsub("\\.fastq\\.gz$", "", rownames(seqtab)))
+  dir_name <- ifelse(isChimeric, "chimeras", "non_chimeric")
+  
+  # Loop through each sample
+  for (sample in samples) {
+    # Subset for the current sample; ensure drop = FALSE to keep data frame structure
+    sample_seqtab <- seqtab[grep(paste0("^", sample), rownames(seqtab)), , drop = FALSE]
+    
+    # Skip processing for empty or all-zero-count samples
+    if (ncol(sample_seqtab) == 0 || all(colSums(sample_seqtab) == 0)) next
+    
+    # Extracting sequences and counts
+    sequences <- colnames(sample_seqtab)
+    counts <- colSums(sample_seqtab)
+    valid_indices <- counts > 0  # Indices where count > 0
+    headers <- sapply(sequences[valid_indices], function(x) digest(x, algo = "sha1"))
+    
+    # File naming convention
+    file_name <- paste0(sample, ifelse(isChimeric, "_chimeric.fasta", ".fasta"))
+    
+    # Write sequences with valid counts to FASTA
+    writeFastaWithCounts(sequences[valid_indices], counts[valid_indices], headers, dir_name, file_name)
+  }
+}
+
+# Assuming 'nonchimeric_seqtab' and 'discarded_chimera' are your data
+processAndWriteSequences(nonchimeric_seqtab, isChimeric = FALSE)
+processAndWriteSequences(discarded_chimera, isChimeric = TRUE)

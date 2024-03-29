@@ -112,7 +112,8 @@ writeFastaWithCounts <- function(sequences, counts, headers, dir_name, file_name
   # Loop through sequences and prepare FASTA content
   for (i in seq_along(sequences)) {
     if (counts[i] > 0) {  # Check if count is greater than zero
-      fasta_header <- paste(">", headers[i], "_count_", counts[i], sep = "")
+      # Modified header format to use ";size=" instead of "_count_"
+      fasta_header <- paste(">", headers[i], ";size=", counts[i], sep = "")
       fasta_sequence <- sequences[i]
       fasta_lines <- c(fasta_lines, fasta_header, fasta_sequence)
     }

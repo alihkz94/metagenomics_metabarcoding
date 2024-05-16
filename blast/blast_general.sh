@@ -7,7 +7,7 @@
 #SBATCH --time=40:00:00
 
 DIR="/gpfs/space/home/alihakim/blast/chimeras_denovo_best_chimeras"  # Update with the path to your fasta files
-HEADER="qseqid+stitle+qlen+slen+qstart+qend+sstart+send+evalue+length+nident+mismatch+gapopen+gaps+sstrand+qcovs+pident"
+HEADER="qseqid stitle qlen slen qstart qend sstart send evalue length nident mismatch gapopen gaps sstrand qcovs pident"
 
 # Process each fasta file in the directory
 for fasta_file in "$DIR"/*.fasta; do

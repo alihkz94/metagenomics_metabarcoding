@@ -110,7 +110,7 @@ for(s in 1:num_samples) {
     q_sd = qual_sd
   )
   
-  out_file <- file.path(output_dir, paste0("sample_", s, "_R1.fastq"))
+  out_file <- file.path(output_dir, paste0("sample_", s, "_single_end.fastq"))
   writeFastq(srq, file=out_file, compress=FALSE)
   cat("Wrote:", out_file, "\n")
 }

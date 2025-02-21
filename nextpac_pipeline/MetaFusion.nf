@@ -1,4 +1,5 @@
 #!/usr/bin/env nextflow
+nextflow.enable.dsl=2
 
 // ----------------------------
 // Parameter Definitions
@@ -16,20 +17,14 @@ params.threads      = 32   // Global thread parameter for processes
 // Process: Trimmomatic (Quality trimming)
 // ----------------------------
 process trimmomatic {
-    publishDir params.outdir, mode: 'copy'
-    conda 'bioconda::trimmomatic'
-    cpus 4
-
     input:
-    // Expecting a tuple with sample ID and paired-end reads
     tuple val(sra_id), path(reads)
     
     output:
-    // Four output FASTQ files: paired and unpaired for each read
     tuple path("${sra_id}_paired_1.fastq"),
           path("${sra_id}_single_1.fastq"),
           path("${sra_id}_paired_2.fastq"),
-          path("${sra_id}_single_2.fastq")
+          path("${sra_id}_single_2.fastq"), emit: trimmed_reads
     
     script:
     """

@@ -13,7 +13,7 @@ This pipeline is designed to process and clean FASTA files containing taxonomic 
 
 ## Repository Structure
 
-```plaintext
+```
 .
 ├── Snakefile                 # Snakemake workflow file
 ├── config.yaml               # Pipeline configuration (versioning, etc.)

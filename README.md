@@ -20,7 +20,7 @@ This repository contains a collection of scripts, pipelines, and utilities for p
 
 ## Repository Structure
 
-```
+```plaintext
 .
 ├── LICENSE                        # MIT License
 ├── README.md                      # This file

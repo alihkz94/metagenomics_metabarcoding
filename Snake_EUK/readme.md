@@ -7,7 +7,7 @@ A comprehensive and reproducible pipeline for processing taxonomic FASTA files a
 
 ## Overview
 
-This pipeline is designed to process and clean FASTA files containing taxonomic information. It performs robust encoding conversion (from latin‑1 to ASCII) on the fly, filters and cleans taxonomy headers, and generates outputs tailored for various bioinformatics tools. The workflow is orchestrated via [Snakemake](https://snakemake.readthedocs.io/) to ensure reproducibility and parallel processing. Each tool-specific script is modular and can be adjusted to meet specific requirements.
+This pipeline is designed to process and clean FASTA files containing taxonomic information. It performs robust encoding conversion (from latin‑1 to ASCII) on the fly, filters and cleans taxonomy headers, and generates outputs tailored for various bioinformatics tools. To ensure reproducibility and parallel processing, the workflow is orchestrated via [Snakemake](https://snakemake.readthedocs.io/). Each tool-specific script is modular and can be adjusted to meet specific requirements.
 
 ---
 
@@ -46,7 +46,7 @@ This pipeline is designed to process and clean FASTA files containing taxonomic 
 Clone the repository and install Python dependencies:
 
 ```bash
-git clone https://github.com/yourusername/eukaryome-taxonomy-pipeline.git
+git clone [https://github.com/yourusername/eukaryome-taxonomy-pipeline.git](https://github.com/alihkz94/metabarcoding_analysis/edit/main/Snake_EUK)
 cd eukaryome-taxonomy-pipeline
 pip install biopython snakemake
 ```

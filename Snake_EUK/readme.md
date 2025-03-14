@@ -46,7 +46,7 @@ This pipeline is designed to process and clean FASTA files containing taxonomic 
 Clone the repository and install Python dependencies:
 
 ```bash
-git clone https://github.com/alihkz94/metabarcoding_analysis/main/Snake_EUK
+git clone https://github.com/alihkz94/metabarcoding_analysis/tree/main/Snake_EUK
 cd eukaryome-taxonomy-pipeline
 pip install biopython snakemake
 ```

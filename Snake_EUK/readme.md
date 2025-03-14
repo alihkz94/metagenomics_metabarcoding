@@ -39,8 +39,8 @@ This pipeline is designed to process and clean FASTA files containing taxonomic 
 Clone the repository and install Python dependencies:
 
 ```bash
-git clone https://github.com/alihkz94/metabarcoding_analysis.git
-cd metabarcoding_analysis/Snake_EUK
+git clone https://github.com/alihkz94/metagenomics_metabarcoding.git
+cd metagenomics_metabarcoding/Snake_EUK
 pip install biopython snakemake
 ```
 

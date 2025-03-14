@@ -13,7 +13,7 @@ This pipeline is designed to process and clean FASTA files containing taxonomic 
 
 ## Repository Structure
 
-```
+```Plaintext
 .
 ├── Snakefile                 # Snakemake workflow file
 ├── config.yaml               # Pipeline configuration (versioning, etc.)
@@ -25,7 +25,7 @@ This pipeline is designed to process and clean FASTA files containing taxonomic 
 │   ├── qiime.py              # Generates QIIME2-compatible FASTA and TSV files with cleaned taxonomy fields
 │   └── sintax.py             # Converts FASTA files to SINTAX format
 └── README.md                 # This README file
-```
+```Plaintext
 
 ---
 

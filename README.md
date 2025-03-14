@@ -170,5 +170,5 @@ Ali Hakimzadeh
 
 If you use these tools in your research, please cite:
 ```
-Hakimzadeh A. (2025). Metabarcoding and Metagenomics Analysis Tools. GitHub repository. https://github.com/alihkz94/metabarcoding_analysis
+Hakimzadeh A. (2025). Metabarcoding and Metagenomics Analysis Tools. GitHub repository. https://github.com/alihkz94/metagenomics_metabarcoding
 ```

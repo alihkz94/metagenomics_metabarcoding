@@ -47,7 +47,7 @@ Clone the repository and install Python dependencies:
 
 ```bash
 git clone https://github.com/alihkz94/metabarcoding_analysis/tree/main/Snake_EUK
-cd eukaryome-taxonomy-pipeline
+cd Snake_EUK
 pip install biopython snakemake
 ```
 

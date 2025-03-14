@@ -9,7 +9,7 @@ This repository contains a collection of scripts, pipelines, and utilities for p
 ## Repository Structure
 Collecting workspace informationI'll create a comprehensive README file that covers both metabarcoding and metagenomics analysis components of your repository:
 
-```md
+
 # Metabarcoding and Metagenomics Analysis Tools
 
 A comprehensive toolkit for environmental DNA analysis, containing scripts and workflows for both metabarcoding and metagenomics analysis on High-Performance Computing (HPC) environments.

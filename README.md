@@ -151,6 +151,9 @@ Rscript simulated_data_PipeCraft/single_end.R
 
 # For paired-end reads
 python simulated_data_PipeCraft/paired_end.py
+
+# For DADA2 specific reads
+Rscript simulated_data_PipeCraft/simulate_DADA2.R
 ```
 
 ## Documentation

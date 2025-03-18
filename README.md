@@ -56,6 +56,7 @@ This repository contains a collection of scripts, pipelines, and utilities for p
 │   ├── paired_end.py             # Generate paired-end reads
 │   ├── Readme.md                 # Documentation for simulation tools
 │   └── single_end.R              # Generate single-end reads
+    └── simulate_DADA2.R          # Gnerate reads suitable for DADA2 testing
 └── Snake_EUK/                    # Snakemake pipeline for taxonomy processing
     ├── readme.md                 # Documentation for Snakemake workflow
     ├── snakefile                 # Snakemake workflow definition

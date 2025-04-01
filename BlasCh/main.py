@@ -12,6 +12,9 @@ from collections import defaultdict
 import logging
 import csv
 
+# Add version definition here
+__version__ = "0.1.0"
+
 ###############################################################################
 #                        Chimera Detection and Recovery                       #
 #               for Metabarcoding and Environmental DNA (eDNA)                #

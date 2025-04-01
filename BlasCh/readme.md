@@ -4,7 +4,7 @@
 ![Python](https://img.shields.io/badge/python-3.6%2B-blue.svg)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-## Chimera Detection and Recovery for Metabarcoding & Environmental DNA
+## FALSE POSITIVE Chimera detection and recovery for metabarcoding & environmental DNA
 
 BlasCh is a specialized tool designed to process BLAST XML results for identifying, classifying, and recovering false positive chimeric sequences from metabarcoding or environmental DNA (eDNA) datasets.
 

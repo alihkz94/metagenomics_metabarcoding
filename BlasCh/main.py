@@ -776,28 +776,95 @@ def process_blast_xml_results(
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Chimera Detection & Recovery for eDNA/Metabarcoding",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+        description="""BlasCh - Chimera Detection and Recovery for Metabarcoding and Environmental DNA (eDNA)
+
+This tool processes BLAST XML results to identify and recover false positive chimeric sequences from metabarcoding or eDNA datasets. Sequences are classified into three categories:
+- Non-chimeric: High-quality matches to reference sequences
+- Chimeric: Sequences showing characteristics of artificial chimeras
+- Borderline: Sequences requiring further analysis
+
+Example:
+    blasch --input_chimeras_dir ./input \\
+           --self_fasta_dir ./self_fasta \\
+           --reference_db ./reference.fasta \\
+           --output_dir ./output""",
+        formatter_class=argparse.RawDescriptionHelpFormatter
     )
 
-    parser.add_argument("--input_chimeras_dir", default="./",
-                        help="Directory containing .chimeras.fasta files.")
-    parser.add_argument("--self_fasta_dir", default="./",
-                        help="Directory with FASTA files for building self-databases.")
-    parser.add_argument("--reference_db",
-                        help="Path to a reference DB prefix or reference FASTA (script will create DB if needed).")
-    parser.add_argument("--output_dir", default="./rescued_reads",
-                        help="Directory where all results are written.")
-    parser.add_argument("--threads", type=int, default=8,
-                        help="Number of CPU threads for BLAST.")
-    parser.add_argument("--high_coverage_threshold", type=float, default=99.0,
-                        help="High coverage threshold for non-chimeric classification.")
-    parser.add_argument("--high_identity_threshold", type=float, default=99.0,
-                        help="High identity threshold for non-chimeric classification.")
-    parser.add_argument("--borderline_coverage_threshold", type=float, default=89.0,
-                        help="Coverage threshold for borderline => non-chimeric.")
-    parser.add_argument("--borderline_identity_threshold", type=float, default=80.0,
-                        help="Identity threshold for borderline => non-chimeric.")
+    parser.add_argument(
+        "--input_chimeras_dir",
+        required=True,
+        help="Directory containing .chimeras.fasta files to be analyzed"
+    )
+
+    parser.add_argument(
+        "--self_fasta_dir",
+        required=True,
+        help="Directory containing FASTA files used for building self-databases"
+    )
+
+    parser.add_argument(
+        "--reference_db",
+        help="""Path to reference database prefix or FASTA file.
+If a FASTA file is provided, a BLAST database will be created automatically.
+If empty, only self-databases will be used for analysis."""
+    )
+
+    parser.add_argument(
+        "--output_dir",
+        required=True,
+        help="Directory where all output files will be written"
+    )
+
+    parser.add_argument(
+        "--threads",
+        type=int,
+        default=8,
+        help="Number of CPU threads to use for BLAST analysis"
+    )
+
+    parser.add_argument(
+        "--high_coverage_threshold",
+        type=float,
+        default=99.0,
+        help="""Coverage threshold for high-quality matches.
+Sequences with coverage >= this value and identity >= high_identity_threshold
+are classified as non-chimeric."""
+    )
+
+    parser.add_argument(
+        "--high_identity_threshold",
+        type=float,
+        default=99.0,
+        help="""Identity threshold for high-quality matches.
+Sequences with identity >= this value and coverage >= high_coverage_threshold
+are classified as non-chimeric."""
+    )
+
+    parser.add_argument(
+        "--borderline_coverage_threshold",
+        type=float,
+        default=89.0,
+        help="""Coverage threshold for borderline sequences.
+Sequences with coverage >= this value and identity >= borderline_identity_threshold
+are classified as non-chimeric."""
+    )
+
+    parser.add_argument(
+        "--borderline_identity_threshold",
+        type=float,
+        default=80.0,
+        help="""Identity threshold for borderline sequences.
+Sequences with identity >= this value and coverage >= borderline_coverage_threshold
+are classified as non-chimeric."""
+    )
+
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=f"%(prog)s {__version__}",
+        help="Show the version number and exit"
+    )
 
     args = parser.parse_args()
 

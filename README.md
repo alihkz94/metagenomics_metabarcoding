@@ -57,17 +57,7 @@ This repository contains a collection of scripts, pipelines, and utilities for p
 │   ├── Readme.md                 # Documentation for simulation tools
 │   └── single_end.R              # Generate single-end reads
     └── simulate_DADA2.R          # Gnerate reads suitable for DADA2 testing
-└── Snake_EUK/                    # Snakemake pipeline for taxonomy processing
-    ├── readme.md                 # Documentation for Snakemake workflow
-    ├── snakefile                 # Snakemake workflow definition
-    ├── config.yaml               # Configuration parameters
-    └── scripts/                  # Python scripts for different tools
-        ├── dada2.py              # DADA2 format conversion
-        ├── general.py            # General taxonomy processing
-        ├── mothur.py             # Mothur format conversion
-        ├── qiime.py              # QIIME2 format conversion
-        ├── sintax.py             # SINTAX format conversion
-        └── utils.py              # Shared utility functions
+             # Shared utility functions
 ```
 
 ## Key Features
@@ -108,7 +98,6 @@ This repository contains a collection of scripts, pipelines, and utilities for p
 - **Seqkit**: For FASTA/FASTQ manipulation
 
 ### Workflow Systems
-- **Snakemake**: For taxonomy pipeline
 - **Nextflow**: For metagenomics workflows
 
 ## Usage
@@ -131,14 +120,6 @@ Navigate to the nextpac_pipeline directory and run:
 nextflow run MAG_flye.nf -c nextflow_flye.config
 # or
 nextflow run MetaFusion.nf -c nextflow_spades.config
-```
-
-### Snakemake Taxonomy Pipeline
-
-Navigate to the Snake_EUK directory and run:
-
-```bash
-snakemake --cores <number_of_cores> --rerun-incomplete --keep-going
 ```
 
 ### Data Simulation

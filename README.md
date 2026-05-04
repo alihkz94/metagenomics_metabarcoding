@@ -1,151 +1,141 @@
 # Metabarcoding and Metagenomics Analysis Tools
 
-A comprehensive toolkit for environmental DNA analysis, containing scripts and workflows for both metabarcoding and metagenomics analysis on High-Performance Computing (HPC) environments.
+A comprehensive toolkit for environmental DNA analysis, containing scripts, workflows, and utilities for both metabarcoding and metagenomics on High-Performance Computing (HPC) systems.
 
 ## Overview
 
-This repository contains a collection of scripts, pipelines, and utilities for processing and analyzing environmental DNA data. It supports both targeted metabarcoding approaches and whole-genome shotgun metagenomics analysis, with tools organized by function and technology.
-
-## Repository Structure
-Collecting workspace informationI'll create a comprehensive README file that covers both metabarcoding and metagenomics analysis components of your repository:
-
-
-# Metabarcoding and Metagenomics Analysis Tools
-
-A comprehensive toolkit for environmental DNA analysis, containing scripts and workflows for both metabarcoding and metagenomics analysis on High-Performance Computing (HPC) environments.
-
-## Overview
-
-This repository contains a collection of scripts, pipelines, and utilities for processing and analyzing environmental DNA data. It supports both targeted metabarcoding approaches and whole-genome shotgun metagenomics analysis, with tools organized by function and technology.
+This repository includes tools for data preprocessing, chimera detection, OTU/ASV generation, taxonomic classification, assembly workflows, and simulated dataset generation. It is designed for environmental DNA and metabarcoding analyses, with a focus on HPC-friendly scripts and workflow automation.
 
 ## Repository Structure
 
 ```plaintext
 .
-├── LICENSE                        # MIT License
-├── README.md                      # This file
-├── HPC_scripts/                   # Scripts for various analysis steps
-│   ├── abundance.sh               # Calculate sequence abundances
-│   ├── BlasCh_pipecraft.py        # Chimera detection and recovery
-│   ├── concatanate.sh             # Sequence concatenation
-│   ├── custom pipeline.sh         # Custom workflow for metabarcoding
-│   ├── dada2_pipecraft.R          # DADA2 pipeline implementation
-│   ├── demultiplexing_indexcheck.sh # Check duplicate headers and indices
-│   ├── dereplication.sh           # Remove duplicate sequences
-│   ├── fastq2fasta.sh             # Convert FASTQ to FASTA format
-│   ├── ITSx.sh                    # Extract ITS regions
-│   ├── mafft.sh                   # Sequence alignment
-│   ├── makedb.sh                  # Create reference databases
-│   ├── merge_same_fasta.py        # Combine FASTA files
-│   ├── OTU_singelton_removal.sh   # Remove singleton OTUs
-│   ├── parsing_issue.sh           # Handle FASTA parsing issues
-│   ├── sintax.sh                  # Taxonomic classification with SINTAX
-│   ├── total_abudances.sh         # Calculate total abundances
-│   ├── usearch.sh                 # OTU clustering and chimera removal
-│   └── blast/                     # BLAST utilities
-│       ├── blast_PC.sh            # Parallel BLAST implementation
-│       ├── blast_folder.sh        # Process multiple directories
-│       ├── blast_general.sh       # General purpose BLAST script
-│       └── concat.py              # Concatenate BLAST results
-├── nextpac_pipeline/              # Nextflow pipelines for long-read metagenomics
-│   ├── MAG_flye.nf               # MAG assembly with Flye 
-│   ├── MetaFusion.nf             # Metagenome assembly and analysis
-│   ├── nextflow_flye.config      # Configuration for Flye pipeline
-│   └── nextflow_spades.config    # Configuration for SPAdes pipeline
-├── simulated_data_PipeCraft/      # Tools for generating simulated datasets
-│   ├── paired_end.py             # Generate paired-end reads
-│   ├── Readme.md                 # Documentation for simulation tools
-│   └── single_end.R              # Generate single-end reads
-    └── simulate_DADA2.R          # Gnerate reads suitable for DADA2 testing
-             # Shared utility functions
+├── BlasCh/                        # BlasCh package for chimera recovery
+│   ├── BlasCh_HPC/                # Scripts for running BlasCh in HPC environments
+│   │   ├── blasch.sh
+│   │   ├── blasch_chimeric.py
+│   │   └── blasch_nonchimeric.py
+│   ├── __init__.py
+│   ├── main.py
+│   ├── readme.md
+│   └── setup.py
+├── Blasch_PipeCraft.py            # Chimera detection and recovery script
+├── HPC_scripts/                   # General HPC scripts for metabarcoding workflows
+│   ├── abundance.sh
+│   ├── BlasCh_pipecraft.py
+│   ├── concatanate.sh
+│   ├── custom pipeline.sh
+│   ├── dada2_pipecraft.R
+│   ├── demultiplexing_indexcheck.sh
+│   ├── dereplication.sh
+│   ├── fastq2fasta.sh
+│   ├── ITSx.sh
+│   ├── mafft.sh
+│   ├── makedb.sh
+│   ├── merge_same_fasta.py
+│   ├── OTU_singelton_removal.sh
+│   ├── parsing_issue.sh
+│   ├── sintax.sh
+│   ├── total_abudances.sh
+│   ├── usearch.sh
+│   └── blast/
+│       ├── blast_PC.sh
+│       ├── blast_folder.sh
+│       ├── blast_general.sh
+│       └── concat.py
+├── LICENSE
+├── README.md
+├── nextpac_pipeline/              # Nextflow-based metagenomics workflows
+│   ├── MAG_flye.nf
+│   ├── MetaFusion.nf
+│   ├── nextflow_flye.config
+│   └── nextflow_spades.config
+└── simulated_data_PipeCraft/      # Simulated dataset generation tools
+    ├── paired_end.py
+    ├── Readme.md
+    ├── simulate_DADA2.R
+    └── single_end.R
 ```
 
 ## Key Features
 
 ### Metabarcoding Analysis
-- **Data Preprocessing**: Quality filtering, primer trimming, and format conversion
-- **Sequence Processing**: Dereplication, chimera detection, and ITS extraction
-- **OTU/ASV Generation**: DADA2 implementation and clustering tools
-- **Taxonomy Assignment**: SINTAX and BLAST-based classification
+- Data preprocessing and format conversion
+- Chimera detection and recovery
+- Dereplication and OTU/ASV generation
+- ITS extraction and SINTAX taxonomy assignment
+- BLAST-based classification and reporting
 
 ### Metagenomics Analysis
-- **Assembly Pipelines**: Nextflow workflows for short and long read assembly
-- **MAG Recovery**: Tools for binning and refining metagenome-assembled genomes
-- **Taxonomic Profiling**: Multiple approaches for community profiling
-- **Functional Analysis**: Integration with annotation tools
+- Nextflow assembly pipelines for long-read and short-read datasets
+- MAG assembly support with Flye and SPAdes configurations
+- Modular workflow configuration for HPC environments
+
+### Chimera Recovery
+- `Blasch_PipeCraft.py` for BLAST XML chimera classification and recovery
+- `BlasCh/` package for false-positive chimera detection and recovery
+- HPC wrapper scripts in `BlasCh/BlasCh_HPC/`
 
 ### Data Simulation
-- Generation of realistic sequencing data for benchmarking and testing
-- Support for both single-end and paired-end read simulation
-- Parameter documentation for customizing simulations
-
-### Workflow Management
-- Snakemake pipeline for consistent taxonomy handling across tools
-- Nextflow workflows for complex metagenomics analysis
-- Robust error handling and reporting
+- Single-end and paired-end read generation
+- DADA2-compatible simulated read sets
+- Useful for benchmarking and pipeline development
 
 ## Installation & Dependencies
 
 ### General Requirements
-- **Bash** environment (Linux/MacOS/WSL)
-- **Python 3.6+** with Biopython
-- **R** with BiocManager for DADA2-related scripts
+- Linux or macOS shell environment
+- Python 3.6+ with Biopython
+- R (for DADA2 and simulation scripts)
 
-### Specialized Tools
-- **BLAST+**: For sequence similarity searches
-- **VSEARCH**: For various sequence operations
-- **ITSx**: For ITS region extraction
-- **Seqkit**: For FASTA/FASTQ manipulation
-
-### Workflow Systems
-- **Nextflow**: For metagenomics workflows
+### Recommended Tools
+- BLAST+
+- VSEARCH
+- ITSx
+- Seqkit
+- Nextflow
 
 ## Usage
 
-### HPC Scripts
+### Run HPC scripts
 
-Most scripts in the `HPC_scripts/` directory can be run directly:
+Example:
 
 ```bash
 bash HPC_scripts/fastq2fasta.sh
 ```
 
-For more complex scripts, check the header of each file for usage instructions.
-
-### Nextflow Pipelines
-
-Navigate to the nextpac_pipeline directory and run:
+### Run Nextflow pipelines
 
 ```bash
-nextflow run MAG_flye.nf -c nextflow_flye.config
+nextflow run nextpac_pipeline/MAG_flye.nf -c nextpac_pipeline/nextflow_flye.config
 # or
-nextflow run MetaFusion.nf -c nextflow_spades.config
+nextflow run nextpac_pipeline/MetaFusion.nf -c nextpac_pipeline/nextflow_spades.config
 ```
 
-### Data Simulation
-
-For generating test datasets:
+### Run Blasch chimera recovery
 
 ```bash
-# For single-end reads
+python Blasch_PipeCraft.py --help
+```
+
+### Generate simulated data
+
+```bash
 Rscript simulated_data_PipeCraft/single_end.R
-
-# For paired-end reads
 python simulated_data_PipeCraft/paired_end.py
-
-# For DADA2 specific reads
 Rscript simulated_data_PipeCraft/simulate_DADA2.R
 ```
 
 ## Documentation
 
-Each directory contains specific documentation:
-- Simulation Parameters
-- Taxonomy Pipeline
+- `BlasCh/readme.md` for the BlasCh package
+- `simulated_data_PipeCraft/Readme.md` for simulation tool details
+- Inline comments and usage headers in `HPC_scripts/`
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License. See `LICENSE` for details.
 
 ## Author
 
@@ -154,6 +144,7 @@ Ali Hakimzadeh
 ## Citation
 
 If you use these tools in your research, please cite:
-```
+
+```text
 Hakimzadeh A. (2025). Metabarcoding and Metagenomics Analysis Tools. GitHub repository. https://github.com/alihkz94/metagenomics_metabarcoding
 ```
